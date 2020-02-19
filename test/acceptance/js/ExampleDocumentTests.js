@@ -32,13 +32,16 @@ console.log(
   process.getgroups(),
   'PID'
 )
-try {
-  console.log('creating tmp directory', fixturePath('tmp'))
-  fs.mkdirSync(fixturePath('tmp'))
-} catch (error) {
-  const err = error
-  console.log(err, fixturePath('tmp'), 'unable to create fixture tmp path')
-}
+fs.stat(fixturePath('tmp'), err => {
+  if (!err) return
+  try {
+    console.log('creating tmp directory', fixturePath('tmp'))
+    fs.mkdirSync(fixturePath('tmp'))
+  } catch (error) {
+    const err = error
+    console.log(err, fixturePath('tmp'), 'unable to create fixture tmp path')
+  }
+})
 
 const MOCHA_LATEX_TIMEOUT = 60 * 1000
 
